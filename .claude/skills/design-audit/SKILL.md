@@ -80,6 +80,41 @@ from the screenshot and, where the brief gives it, the element's own code.
    the report suggests a reason at 3 of 3. A suggestion only pre-picks the
    reason; the person confirms each element in the report (D32).
 
+## Fixing in the code
+
+After the summary, offer once: "Want me to fix these in the code? I'll show
+each change before I make it." Only go ahead if the person says yes.
+
+1. **Never edit `fixtures/`.** Those pages are test data with problems
+   planted on purpose. If the audited page is in `fixtures/`, copy its
+   folder to `try/<name>/` first (git ignores `try/`), audit the copy, and
+   fix the copy. Say that you did.
+2. **Find the code.** For a local HTML file, it's that file. For an app on
+   localhost, search the project for the element: its text, its classes and
+   the `html` snippet each element carries in `findings.json`.
+3. **One change at a time, in report order** (Fix first, by severity). Show
+   the change, say which finding it fixes and for which element, and make it
+   only when the person approves. Identical elements (three unnamed buttons)
+   can be one change.
+4. **Use what the audit already knows.** The suggested alt text or `alt=""`
+   from the judges, the measured contrast ratio and the one required, the
+   finding's How to fix. Names, labels and alt text are content: propose the
+   words, and let the person change them.
+5. **Never make a finding go away without fixing it.** No `aria-hidden` or
+   `role="presentation"` on things people need, no deleting elements, no
+   turning off rules, and never marking anything not an issue for the
+   person.
+6. **Leave alone what isn't yours to decide.** Anything in Review, and text
+   the judges suggested is part of a picture: tell the person, and let them
+   decide in the report.
+7. **Check the fixes.** Audit the page again with the same threshold and
+   number of judges (judges included), then compare:
+   ```bash
+   node scripts/compare-audits.mjs <report before> <report after>
+   ```
+   Report what's fixed, what's still there and anything new, as the script
+   says. If a fix made something new, say so and offer to fix that too.
+
 ## Confidence, in brief
 
 - Rule-based fail or pass: 100%.

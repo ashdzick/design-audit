@@ -1,7 +1,8 @@
 # Design Audit
 
 An accessibility and usability audit that runs inside Claude Code. Point it
-at a page you're building and it tells you what to fix, in plain language.
+at a page you're building and it tells you what to fix, in plain language,
+and fixes it in your code if you want, one approved change at a time.
 Where a rule can decide, it uses the rule. Where it can't, several Claude
 judges answer separately, and the confidence is how many agree.
 
@@ -31,6 +32,12 @@ or a page of your own:
 
 ```text
 Audit http://localhost:3000/settings and tell me what to fix first.
+```
+
+or have it fix what it finds:
+
+```text
+Audit http://localhost:3000/settings and fix what you can.
 ```
 
 Claude asks for a review threshold and how many judges to use (defaults 90%
@@ -74,7 +81,13 @@ have a designer to ask.
    it, with a close-up of every element on the page. Judges also suggest
    things, like "Decorative, 3 of 3" for text that's part of a picture, or
    the alt text an image should have.
-5. Not an issue. Mark any element "Not an issue" with a reason. The decision
+5. Fixing, if you ask. Claude finds each element in your code and shows the
+   change before making it, using what the audit knows: the judges' alt
+   text, the measured contrast, the rule's fix. It never hides an element or
+   turns off a rule to make a finding go away, and leaves anything in Review
+   to you. Then it audits the page again and tells you what's fixed, what's
+   still there and anything new.
+6. Not an issue. Mark any element "Not an issue" with a reason. The decision
    is saved in your project and remembered on later runs, until that
    element's code changes. A suggestion can pre-pick the reason. You still
    confirm each element.
@@ -145,20 +158,23 @@ version. We audited both home pages with 3 judges.
 The fixed page still fails three rules newer than the demo itself: page
 regions, a main region, and the WCAG 2.2 touch target size.
 
+On the made-up lead view, a fresh Claude Code session asked to "fix what you
+can" changed 20 elements across all 10 issues (names for icon buttons, a
+label for the search box, words next to the colored dots, darker gray text,
+and more). The second audit, judges included, found all 20 fixed and nothing
+new. It left the one item in Review for a person.
+
 ## What it can't do yet
 
 - One page per run, and not pages behind a sign-in.
 - Judgment checks need Claude Code. Run on its own
   (`node scripts/audit.mjs <page>`), the tool does the rule-based checks and
   writes the judgment questions to the report folder for later.
-- It finds and explains. It doesn't change your code yet.
 - Keyboard flows and how a screen reader actually sounds still need a
   person.
 
 ## Where it's going
 
-- Fix it in the code. Turn findings into changes in your project, one
-  approval at a time, then check again.
 - Audit while building. Run on its own after Claude changes a screen, and
   stay quiet about what you've already decided.
 - Usability checks for internal apps, such as forms, tables, destructive
@@ -175,7 +191,9 @@ Writes `report.html`, `findings.json` and `screenshot.png` to
 `reports/<page>-<time>/`. `--open` serves the report locally so "Not an
 issue" can save. Judgment briefs wait in `judge/` inside the report folder.
 Once judges have answered them, `node scripts/add-judgments.mjs <report
-folder>` merges them in.
+folder>` merges them in. After a round of fixes, `node scripts/compare-audits.mjs
+<before folder> <after folder>` lists what's fixed, what's still there and
+anything new.
 
 ## FAQ
 
@@ -209,9 +227,10 @@ login.
 <details>
 <summary>Does it change my code?</summary>
 
-Not yet. It explains each problem and suggests fixes, like the alt text an
-image should have. Making the change in your project, with your approval,
-is next.
+Only if you ask, and only with your approval for each change. Afterwards it
+audits the page again to check. If you audit one of the demo pages in
+`fixtures/`, it copies the page to `try/` and fixes the copy, since the
+originals are test data.
 
 </details>
 
@@ -252,7 +271,8 @@ helps the most.
 npm test
 ```
 
-Unit tests cover ranking, triage, dismissals and merging judges' answers.
+Unit tests cover ranking, triage, dismissals, merging judges' answers and
+comparing an audit before and after fixes.
 Real runs on the fixture pages check that every planted rule-based issue is
 caught, that the judgment checks find what they should, and that nothing
 leaks to the judges. The report also audits itself and must have nothing to
