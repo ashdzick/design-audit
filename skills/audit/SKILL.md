@@ -1,5 +1,5 @@
 ---
-name: design-audit
+name: audit
 description: Audit a web page for design quality and hand back a ranked report with a confidence level on every finding. Rule-based accessibility checks (axe-core, WCAG 2.2 A/AA and best practice), plus judgment checks that Claude runs several times independently, with confidence measured as the share of runs that agree. Use when someone says "audit this page", "design audit <url or file>", "run an accessibility audit", "check this screen for accessibility", or gives a URL or local HTML file and asks what's wrong with it.
 ---
 

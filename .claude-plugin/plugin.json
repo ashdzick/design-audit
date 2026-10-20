@@ -1,6 +1,6 @@
 {
   "name": "design-audit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Audit a page for accessibility and usability with measured confidence, and fix it in your code, one approved change at a time.",
   "author": {
     "name": "Ash Dzick"
