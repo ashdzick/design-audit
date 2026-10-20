@@ -1,0 +1,275 @@
+/* Type by level (D40): tab 15, group 14 blue, issue row 14, element row
+   13; in the right pane, issue title 24, sections 18, the element's name
+   16, body 14, metadata 13. */
+/* Design Audit report. Ported from mockups/chrome.css and
+   mockups/layout-2-zoomed-crop.html (D19, D23, D25 to D31). */
+:root {
+  /* Every text color is at least 7:1 (WCAG AAA) on every surface it sits
+     on. Hierarchy comes from size and weight, not lighter gray. Structure
+     comes from type and whitespace, not lines and boxes (D23, D27). */
+  --surface: #ffffff; --side: #f6f7f9; --soft: #eef0f4; --sel: #e8edfb;
+  --ink: #14171f; --ink-2: #353b47;
+  --accent: #2348c9; --accent-ink: #1d3fae; --accent-soft: #e8edfb;
+  --crit: #9a1b12; --ser: #7a2e00; --mod: #5c4a00; --min: #353b47;
+  --code-bg: #f3f4f7; --focus: #2348c9;
+  --bar: #151922; --bar-2: #232937; --bar-line: #4a5366; --bar-ink: #f1f3f7; --bar-muted: #c3c9d5;
+  /* Section headers in the right pane and PDF (D52): plum, 10.5:1 on
+     white, apart from the blue of links and groups and from severity. */
+  --sec: #5b2a6e;
+  --t-title: 24px; --t-head: 15px; --t-body: 14px; --t-small: 13px;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--surface); color: var(--ink); font: var(--t-body)/1.55 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+p { margin: 0; }
+a { color: var(--accent-ink); }
+::placeholder { color: #4a5160; opacity: 1; }
+.app { display: grid; grid-template-rows: auto 1fr; grid-template-columns: minmax(0, 1fr); height: 100vh; }
+
+/* Top bar */
+.top { display: flex; align-items: center; gap: 14px; height: 52px; padding: 0 16px; background: var(--bar); color: var(--bar-ink); }
+.mark { white-space: nowrap; flex: none; display: flex; align-items: center; gap: 8px; font-weight: 600; letter-spacing: -.01em; }
+.mark i { width: 22px; height: 22px; border-radius: 6px; background: var(--accent); display: grid; place-items: center; }
+.mark i::after { content: ""; width: 8px; height: 8px; border: 2px solid #fff; border-radius: 50%; }
+.crumb { flex: 0 1 auto; color: var(--bar-muted); display: flex; gap: 8px; align-items: center; min-width: 0; }
+.crumb b { color: var(--bar-ink); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.spacer { flex: 1; }
+.meta { color: var(--bar-muted); font-size: var(--t-small); white-space: nowrap; }
+.tbtn { flex: none; height: 32px; padding: 0 12px; border: 0; border-radius: 7px; background: var(--bar-2); color: var(--bar-ink); cursor: pointer; display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+.tbtn:hover { background: #2e3545; }
+.tbtn b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.tbtn svg { width: 14px; height: 14px; }
+.pop-wrap { position: relative; }
+.pop { position: absolute; right: 0; top: 40px; background: var(--surface); color: var(--ink); border-radius: 12px; box-shadow: 0 0 0 1px rgba(20,23,31,.08), 0 16px 40px rgba(20,23,31,.18); z-index: 20; }
+.menu { width: 230px; padding: 6px; }
+.menu button { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 9px 10px; border-radius: 7px; cursor: pointer; }
+.menu button:hover { background: var(--side); }
+.menu small { display: block; color: var(--ink-2); font-size: var(--t-small); }
+
+/* Threshold popover */
+.thp { width: 400px; padding: 18px; }
+.thp h2 { margin: 0; font-size: var(--t-head); }
+.thp p { margin: 4px 0 14px; color: var(--ink-2); font-size: var(--t-small); }
+.thp .row2 { display: flex; align-items: center; gap: 12px; }
+.thp input[type=range] { flex: 1; accent-color: var(--accent); }
+.thp output { font-weight: 600; font-variant-numeric: tabular-nums; min-width: 40px; text-align: right; }
+.thp .moves { margin-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.thp .moves div { background: var(--side); border-radius: 8px; padding: 8px 10px; }
+.thp .moves b { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
+.thp .moves span { color: var(--ink-2); font-size: var(--t-small); }
+.thp .judged { margin-top: 14px; font-size: var(--t-small); color: var(--ink-2); }
+.thp .judged div { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; }
+.thp .judged em { font-style: normal; font-variant-numeric: tabular-nums; color: var(--ink); white-space: nowrap; }
+.thp .judged .in { color: var(--accent-ink); }
+
+/* Tabs: text buttons, the current one gets a soft fill */
+.tabs { display: flex; gap: 4px; }
+.tab { border: 0; background: none; padding: 6px 10px; border-radius: 7px; cursor: pointer; color: var(--ink-2); display: flex; gap: 6px; align-items: center; }
+.tab:hover { background: var(--soft); }
+.tab .n { font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.tab[aria-selected=true] { background: var(--soft); color: var(--ink); font-weight: 600; }
+.tab[aria-selected=true] .n { color: var(--ink); }
+
+.empty { padding: 24px 16px; color: var(--ink-2); }
+
+/* Severity words: a label in text, never color alone */
+.crit { color: var(--crit); } .ser { color: var(--ser); } .mod { color: var(--mod); } .min { color: var(--min); }
+.sev-word { font-weight: 600; }
+.meta-line { color: var(--ink-2); font-size: var(--t-small); margin-top: 6px; }
+
+/* Detail sections: plain text on one surface */
+.sec { margin-top: 28px; }
+.sec h2 { font-size: var(--t-head); font-weight: 600; margin: 0 0 6px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.sec-head h2 { margin: 0; }
+.small { font-size: var(--t-small); color: var(--ink-2); margin-top: 6px; }
+.mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12.5px; word-break: break-all; }
+.note { color: var(--accent-ink); background: var(--accent-soft); border-radius: 8px; padding: 10px 12px; font-size: var(--t-small); }
+.step { display: inline-flex; align-items: center; gap: 4px; color: var(--ink-2); font-variant-numeric: tabular-nums; font-size: var(--t-small); }
+.step button { width: 28px; height: 28px; border: 0; border-radius: 7px; background: none; cursor: pointer; padding: 0; display: grid; place-items: center; color: var(--ink); }
+.step button:hover { background: var(--soft); }
+pre { margin: 0; background: var(--code-bg); border-radius: 8px; padding: 10px 12px; font: 12.5px/1.55 "JetBrains Mono", ui-monospace, monospace; white-space: pre-wrap; word-break: break-all; color: var(--ink); }
+.ref { margin-top: 28px; font-size: var(--t-small); }
+.conf { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
+.meter { position: relative; height: 6px; border-radius: 3px; background: var(--soft); }
+.meter i { position: absolute; inset: 0 auto 0 0; border-radius: 3px; background: var(--ink-2); }
+.meter b { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--accent); }
+
+/* Screenshot */
+.shot { position: relative; border-radius: 12px; overflow: hidden; background: var(--side); }
+.shot img { display: block; width: 100%; }
+.layer { position: absolute; inset: 0; }
+.pin { position: absolute; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; background: var(--ink); cursor: pointer; padding: 0; opacity: .55; }
+.pin.on { background: var(--accent); opacity: 1; z-index: 2; transform: scale(1.2); }
+.hl { position: absolute; border: 2px solid var(--accent); border-radius: 4px; background: rgba(35,72,201,.08); }
+.wholepage { position: absolute; inset: 0; border: 3px solid var(--accent); border-radius: 12px; pointer-events: none; }
+.wholepage span { position: absolute; top: 8px; left: 8px; background: var(--accent); color: #fff; font-size: 12px; font-weight: 600; border-radius: 5px; padding: 2px 8px; }
+
+/* Layout 2: side list and detail */
+.main { display: grid; grid-template-columns: 400px minmax(0, 1fr); min-height: 0; }
+/* The side list hides with the button at the left of the top bar, giving
+   the issue the whole width (narrow windows, presenting). */
+.app.side-off .main { grid-template-columns: minmax(0, 1fr); }
+.app.side-off .list { display: none; }
+.tbtn.icon { padding: 0 8px; }
+.list { background: var(--side); overflow: auto; overflow-x: hidden; padding-bottom: 24px; }
+.list-head { position: sticky; top: 0; z-index: 3; background: var(--side); padding: 10px 16px 0; }
+.tabs { gap: 16px; }
+/* The tab row carries the rule, so the kind filter (D46) sits on the same
+   line as the tabs: a funnel, or a chip once a kind is picked. */
+.tab-row { display: flex; align-items: center; gap: 8px; box-shadow: inset 0 -1px 0 #d5d9e1; }
+.kf { margin-left: auto; min-width: 0; }
+/* Never wider than the row: a long kind name shortens, the x stays. */
+.kbtn.on { max-width: 100%; }
+.kbtn.on span { overflow: hidden; text-overflow: ellipsis; }
+.tab-row .tabs, .kbtn svg { flex: none; }
+.kf[hidden] { display: none; }
+.kbtn { display: flex; align-items: center; gap: 6px; height: 28px; padding: 0 8px; border: 0; border-radius: 7px; background: none; color: var(--ink-2); cursor: pointer; font-size: var(--t-small); white-space: nowrap; }
+.kbtn:hover { background: var(--soft); color: var(--ink); }
+.kbtn.on { background: var(--accent-soft); color: var(--accent-ink); font-weight: 600; padding: 0 6px; }
+.kbtn[hidden] { display: none; }
+.kf .pop { top: 34px; }
+.kmenu { width: 210px; }
+.kmenu button { display: flex; justify-content: space-between; }
+.kmenu button[aria-checked=true] { font-weight: 600; background: var(--side); }
+.kmenu .n { color: var(--ink-2); font-weight: 400; }
+.tab { font-size: 15px; padding: 10px 2px 9px; border-radius: 0; background: none; font-weight: 500; color: var(--ink-2); border-bottom: 2px solid transparent; }
+.tab:hover { background: none; color: var(--ink); }
+.tab[aria-selected=true] { background: none; color: var(--ink); font-weight: 600; border-bottom-color: var(--accent); }
+.tab .n { margin-left: 2px; }
+.lg { margin-top: 14px; }
+.lg h2 { margin: 0 0 2px; padding: 0 10px; font-size: var(--t-body); }
+.lg-toggle { display: flex; align-items: center; gap: 6px; width: 100%; border: 0; background: none; padding: 6px 8px; border-radius: 8px; cursor: pointer; font-weight: 600; color: var(--accent-ink); text-align: left; }
+.lg-toggle:hover { background: var(--soft); }
+.lg-toggle .chev { transition: transform .15s ease; flex: none; }
+.lg-toggle[aria-expanded=true] .chev { transform: rotate(90deg); }
+.lg-toggle .count { color: var(--ink-2); font-weight: 400; font-size: var(--t-small); font-variant-numeric: tabular-nums; }
+.lis { display: grid; gap: 2px; padding: 0 10px; }
+.lis[hidden] { display: none; }
+.li { display: grid; gap: 1px; width: 100%; text-align: left; border: 0; background: none; border-radius: 8px; padding: 8px 12px; cursor: pointer; }
+.li:hover { background: rgba(255,255,255,.7); }
+.li[aria-current=true]:hover { background: none; }
+/* The open finding is one white card: its row, then its elements (D38) */
+.card { border-radius: 8px; }
+.card.on { background: var(--surface); box-shadow: 0 1px 3px rgba(20,23,31,.12), 0 0 0 1px rgba(20,23,31,.06); }
+.card.on:has(.subs) { padding-bottom: 6px; }
+.li[aria-current=true] .li-t { font-weight: 600; }
+.li-t { font-weight: 500; color: var(--ink); }
+.li-m { font-size: var(--t-small); color: var(--ink-2); }
+.detail { overflow: auto; padding: 32px 40px 64px; }
+.inner { max-width: 760px; margin: 0 auto; }
+.dhead { margin-bottom: 8px; display: block; }
+.dhead h1 { font-size: var(--t-title); line-height: 1.25; margin: 0; letter-spacing: -.02em; font-weight: 600; }
+.detail .sec { margin-top: 28px; }
+.detail .sec h2 { font-size: 18px; font-weight: 600; letter-spacing: -.01em; margin: 0 0 4px; color: var(--sec); }
+.detail .sec-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.detail .sec-head h2 { margin: 0; }
+.sec-tools { display: flex; gap: 10px; align-items: center; }
+.el-body { margin-top: 14px; }
+.elname { font-size: 16px; font-weight: 600; margin: 0 0 2px; }
+.elname span { color: var(--ink-2); font-weight: 400; font-size: var(--t-body); margin-left: 4px; }
+.wrong { margin: 0; }
+/* A suggested reason (D32): metadata under the element's sentence. */
+.suggest { margin-top: 4px; color: var(--ink-2); font-size: var(--t-small); }
+.el-actions { margin-top: 14px; }
+.el-actions.end { margin-top: 24px; }
+.btn { height: 34px; padding: 0 14px; border: 1px solid #8a92a3; border-radius: 8px; background: var(--surface); color: var(--ink); font-weight: 500; cursor: pointer; }
+.btn:hover { background: var(--side); border-color: var(--ink-2); }
+.dev { margin-top: 18px; }
+.dev summary { cursor: pointer; color: var(--accent-ink); font-size: var(--t-small); font-weight: 500; }
+.dev > *:not(summary) { margin-top: 8px; }
+.checks { margin: 4px 0 0; padding-left: 18px; font-size: var(--t-small); color: var(--ink-2); }
+.detail .note { margin-top: 20px; }
+.seg { display: flex; background: var(--soft); border-radius: 8px; padding: 2px; }
+.seg button { border: 0; background: none; padding: 5px 11px; border-radius: 6px; cursor: pointer; color: var(--ink-2); }
+.seg button[aria-pressed=true] { background: var(--surface); color: var(--ink); font-weight: 500; box-shadow: 0 1px 2px rgba(20,23,31,.12); }
+.crop { position: relative; height: 260px; overflow: hidden; border-radius: 12px; background: var(--side); }
+.crop .hl { z-index: 2; }
+.partial { margin-top: 12px; font-size: var(--t-small); color: var(--ink-2); }
+.partial button { border: 0; background: none; color: var(--accent-ink); text-decoration: underline; cursor: pointer; padding: 0; font-size: inherit; }
+
+.dismiss { margin-top: 24px; background: var(--side); border-radius: 12px; padding: 20px; }
+.dismiss h3 { margin: 0 0 4px; font-size: var(--t-head); }
+.dismiss .hint { color: var(--ink-2); font-size: var(--t-small); margin: 0 0 14px; }
+.reasons { border: 0; padding: 0; margin: 0; display: grid; gap: 2px; }
+.reasons legend { font-weight: 600; margin-bottom: 6px; padding: 0; }
+.reasons label { display: flex; gap: 10px; align-items: flex-start; border-radius: 8px; padding: 8px 10px; cursor: pointer; }
+.reasons label:hover { background: var(--soft); }
+.reasons label:has(input:checked) { background: var(--sel); }
+.reasons input { margin-top: 4px; accent-color: var(--accent); }
+.reasons small { display: block; color: var(--ink-2); font-size: var(--t-small); }
+.dismiss textarea { width: 100%; margin-top: 12px; min-height: 64px; border: 0; border-radius: 8px; padding: 10px 12px; font: inherit; background: var(--surface); box-shadow: inset 0 0 0 1px #c9ced8; }
+.dismiss .foot { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; gap: 12px; flex-wrap: wrap; }
+.dismiss .foot label { display: flex; gap: 8px; align-items: center; }
+.dismiss .foot input { accent-color: var(--accent); }
+.dismiss .foot small { color: var(--ink-2); font-size: var(--t-small); }
+.primary { height: 32px; padding: 0 14px; border: 0; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; font-weight: 500; }
+.err { color: var(--crit); font-size: var(--t-small); margin-top: 8px; }
+.record { display: grid; grid-template-columns: 130px 1fr; gap: 8px 16px; margin: 24px 0 0; }
+.record dt { color: var(--ink-2); }
+.record dd { margin: 0; }
+.storage { color: var(--ink-2); font-size: var(--t-small); margin-top: 20px; }
+/* A finding's elements, listed under its row in the side list: worst
+   first for contrast (D24). The current one gets a soft fill. */
+.subs { display: grid; gap: 1px; padding: 2px 6px 0 26px; }
+.sub { display: flex; justify-content: space-between; gap: 12px; width: 100%; text-align: left; border: 0; background: none; border-radius: 6px; padding: 5px 8px; cursor: pointer; font-size: var(--t-small); color: var(--ink); }
+.sub:hover { background: var(--side); }
+.sub[aria-current=true] { background: var(--soft); font-weight: 600; }
+.sub .k { color: var(--ink-2); font-weight: 400; }
+/* Element 1 of 7 with its arrows, apart from Close-up / Page */
+.el-title { display: flex; align-items: center; gap: 6px; }
+
+/* Narrower windows: tighter list and gutters, no audit date */
+@media (max-width: 1000px) {
+  .main { grid-template-columns: 300px minmax(0, 1fr); }
+  .detail { padding: 24px 24px 48px; }
+  .top .meta { display: none; }
+}
+@media (max-width: 720px) {
+  .main { grid-template-columns: 240px minmax(0, 1fr); }
+  .detail { padding: 20px 16px 40px; }
+}
+
+/* Marked not an issue (D42): the decision sits where the form was, on
+   the same surface, with the rest of the issue linked under the title. */
+.marked .record { margin-top: 12px; }
+.marked .storage { margin-top: 14px; }
+.marked .el-actions { margin-top: 18px; }
+.marked pre { margin: 10px 0 0; }
+.lead-out { margin-top: 6px; color: var(--ink-2); font-size: var(--t-small); }
+.lead-out button { border: 0; background: none; padding: 0; color: var(--accent-ink); text-decoration: underline; cursor: pointer; font-size: inherit; }
+/* A remembered dismissal whose element changed since (D22) */
+.changed { margin-top: 12px; }
+/* Opened from a file: how to open it so decisions can save */
+.readonly pre { margin: 10px 0; }
+
+/* PDF: the whole report, laid out for reading on paper. Built from the
+   same data when printing starts; hidden on screen. */
+#print { display: none; }
+@media print {
+  @page { margin: 16mm 14mm; }
+  html, body { height: auto; background: #fff; }
+  .app { display: none; }
+  #print { display: block; font-size: 12px; }
+  #print h1 { font-size: 22px; margin: 0 0 4px; letter-spacing: -.02em; }
+  #print .lede { color: var(--ink-2); }
+  /* Levels as on screen (D40): tab 18, group 13 blue, issue 15, then
+     section labels, body and metadata. */
+  #print h2 { font-size: 18px; margin: 40px 0 0; break-after: avoid; }
+  #print h3 { font-size: 13px; font-weight: 600; color: var(--accent-ink); margin: 28px 0 0; break-after: avoid; }
+  #print h3 .count { color: var(--ink-2); font-weight: 400; }
+  /* Issues are separated by space alone (no rules or boxes, D23): more
+     between issues than inside one, so each reads as its own block. */
+  #print .pf { margin-top: 26px; break-inside: avoid; }
+  #print h3 + .pf { margin-top: 12px; }
+  #print h4 { font-size: 15px; font-weight: 600; margin: 0; break-after: avoid; }
+  #print .meta-line { margin-top: 2px; font-size: 11.5px; }
+  #print .lbl { font-weight: 600; margin-top: 8px; color: var(--sec); }
+  #print ul { margin: 4px 0 0; padding-left: 18px; }
+  #print li { margin: 1px 0; }
+  #print li b { font-weight: 500; }
+  #print ul.passed { margin-top: 6px; }
+  #print p { margin-top: 4px; }
+}

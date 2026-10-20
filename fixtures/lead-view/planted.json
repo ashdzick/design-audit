@@ -1,0 +1,81 @@
+{
+  "page": "fixtures/lead-view/index.html",
+  "about": "Synthetic dealership CRM lead view. Every issue below is planted on purpose; the test checks that each part-1 issue is caught.",
+  "planted": [
+    {
+      "check": "html-has-lang",
+      "part": 1,
+      "where": "page root",
+      "issue": "No page language declared",
+      "verdict": "fail"
+    },
+    {
+      "check": "color-contrast",
+      "part": 1,
+      "where": "lead header metadata, timeline times",
+      "issue": "Secondary gray text below 4.5:1",
+      "verdict": "fail"
+    },
+    {
+      "check": "button-name",
+      "part": 1,
+      "where": "call, text and email buttons",
+      "issue": "Icon-only buttons with no name",
+      "verdict": "fail"
+    },
+    {
+      "check": "link-name",
+      "part": 1,
+      "where": "vehicle listing link",
+      "issue": "Icon-only link with no text",
+      "verdict": "fail"
+    },
+    {
+      "check": "image-alt",
+      "part": 1,
+      "where": "vehicle photo",
+      "issue": "No alt text",
+      "verdict": "fail"
+    },
+    {
+      "check": "heading-order",
+      "part": 1,
+      "where": "Vehicle of interest card",
+      "issue": "Heading jumps from level 1 to level 4",
+      "verdict": "fail"
+    },
+    {
+      "check": "duplicate-id-aria",
+      "part": 1,
+      "where": "Lead status card",
+      "issue": "Two elements share the id a label points to. axe reports this as needs review, not a failure.",
+      "verdict": "unsure"
+    },
+    {
+      "check": "aria-valid-attr-value",
+      "part": 1,
+      "where": "Trade-in details toggle",
+      "issue": "aria-expanded=\"yes\"",
+      "verdict": "fail"
+    },
+    {
+      "check": "label",
+      "part": 1,
+      "where": "My leads search field",
+      "issue": "Field with no label at all",
+      "verdict": "fail"
+    },
+    {
+      "check": "placeholder-as-label",
+      "part": 2,
+      "where": "Notes field",
+      "issue": "Placeholder is the only label. axe accepts it; it disappears once someone starts typing."
+    },
+    {
+      "check": "color-only-meaning",
+      "part": 2,
+      "where": "lead temperature dots (lead header, My leads list)",
+      "issue": "Hot, warm and cold shown by color alone. axe passes this; the usability layer should flag it."
+    }
+  ]
+}

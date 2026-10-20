@@ -1,0 +1,121 @@
+<!doctype html>
+<!-- Synthetic test fixture for Design Audit. Not a real product, dealership
+     or customer. Issues are planted on purpose: see planted.json. -->
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My leads · Northgate Auto Group</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1d2433; background: #f3f5f9; }
+  header.top { display: flex; align-items: center; gap: 16px; height: 52px; padding: 0 20px; background: #14233c; color: #fff; }
+  header.top .brand { font-weight: 650; letter-spacing: .2px; }
+  header.top nav a { color: #c9d4e8; text-decoration: none; margin-right: 18px; font-size: 13px; }
+  header.top nav a[aria-current] { color: #fff; }
+  .shell { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 52px); }
+  aside.leads { background: #fff; border-right: 1px solid #e1e6ef; padding: 16px 0; }
+  aside.leads h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .6px; color: #4a5568; margin: 0 16px 8px; }
+  .search { display: block; width: calc(100% - 32px); margin: 0 16px 10px; border: 1px solid #d5dbe6; border-radius: 8px; padding: 6px 10px; font: inherit; }
+  aside.leads ul { list-style: none; margin: 0; padding: 0; }
+  aside.leads li a { display: flex; align-items: center; gap: 10px; padding: 9px 16px; color: #1d2433; text-decoration: none; }
+  aside.leads li a[aria-current] { background: #eef3fb; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .hot { background: #d93025; } .warm { background: #f29900; } .cold { background: #1a73e8; }
+  main { padding: 24px 28px; }
+  .lead-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; background: #fff; border: 1px solid #e1e6ef; border-radius: 10px; padding: 18px 20px; }
+  .lead-head h1 { font-size: 22px; margin: 0 0 4px; display: flex; align-items: center; gap: 10px; }
+  .meta { color: #a3a9b4; font-size: 13px; }
+  .actions { display: flex; gap: 8px; }
+  .icon-btn { width: 40px; height: 40px; border-radius: 8px; border: 1px solid #d5dbe6; background: #fff; display: grid; place-items: center; cursor: pointer; color: #14233c; }
+  .icon-btn:hover { background: #eef3fb; }
+  .grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; margin-top: 16px; }
+  .card { background: #fff; border: 1px solid #e1e6ef; border-radius: 10px; padding: 16px 20px; }
+  .card h2, .card h4 { font-size: 15px; margin: 0 0 12px; }
+  .vehicle { display: flex; gap: 14px; align-items: center; }
+  .vehicle img { width: 150px; height: 90px; border-radius: 6px; object-fit: cover; background: #dfe5ee; }
+  .vehicle a { color: #1a5fb4; }
+  .status-row { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+  .pill { background: #e8f0fe; color: #174ea6; border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 600; }
+  ol.timeline { list-style: none; margin: 0; padding: 0; }
+  ol.timeline li { padding: 8px 0; border-top: 1px solid #eef1f6; }
+  ol.timeline li:first-child { border-top: 0; }
+  ol.timeline time { display: block; color: #a3a9b4; font-size: 12px; }
+  textarea { width: 100%; min-height: 84px; border: 1px solid #d5dbe6; border-radius: 8px; padding: 8px 10px; font: inherit; }
+  .save { margin-top: 8px; background: #1a5fb4; color: #fff; border: 0; border-radius: 8px; padding: 8px 14px; font: inherit; font-weight: 600; cursor: pointer; }
+  .toggle { background: none; border: 0; padding: 0; font: inherit; font-weight: 600; color: #1a5fb4; cursor: pointer; }
+  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  select { border: 1px solid #d5dbe6; border-radius: 8px; padding: 6px 8px; font: inherit; }
+  footer { padding: 12px 28px; color: #4a5568; font-size: 12px; }
+
+  table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid #e1e6ef; border-radius: 10px; overflow: hidden; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid #eef1f6; }
+  th { font-size: 12px; color: #4a5568; background: #f8fafc; }
+  .toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 14px; }
+  .toolbar h1 { font-size: 20px; margin: 0 auto 0 0; }
+  .muted { color: #a3a9b4; font-size: 12.5px; }
+  .row-actions { display: flex; gap: 6px; }
+  .row-actions .icon-btn { width: 32px; height: 32px; }
+  .form { max-width: 640px; background: #fff; border: 1px solid #e1e6ef; border-radius: 10px; padding: 22px 24px; }
+  .form h1 { font-size: 20px; margin: 0 0 4px; }
+  .field { margin-top: 14px; }
+  .field input, .field select { width: 100%; border: 1px solid #d5dbe6; border-radius: 8px; padding: 8px 10px; font: inherit; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .req { color: #d93025; }
+  .err { color: #f08a7e; font-size: 12px; margin-top: 4px; }
+  .cal { display: flex; gap: 8px; align-items: center; }
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="brand">Northgate Auto Group</span>
+  <nav aria-label="Primary">
+    <a href="#" aria-current="page">Leads</a>
+    <a href="#">Customers</a>
+    <a href="#">Inventory</a>
+    <a href="#">Reports</a>
+  </nav>
+</header>
+<main style="padding:24px 28px">
+  <div class="toolbar">
+    <!-- PLANTED: page title styled as a heading but not one (page-has-heading-one) -->
+    <div style="font-size:20px;font-weight:650;margin-right:auto">My leads</div>
+    <!-- PLANTED: filter dropdown with no label (select-name) -->
+    <select><option>All sources</option><option>Website chat</option><option>Phone</option><option>Walk-in</option></select>
+    <select aria-label="Sort by"><option>Newest first</option><option>Oldest first</option></select>
+  </div>
+  <table>
+    <thead><tr><th>Lead</th><th>Vehicle of interest</th><th>Source</th><th>Last activity</th><th>Actions</th></tr></thead>
+    <tbody>
+<!-- PLANTED: color-only temperature dots (part 2); icon-only row actions (button-name); low-contrast last activity (color-contrast) -->
+        <tr>
+          <td><span style="display:flex;gap:8px;align-items:center"><span class="dot hot"></span><a href="#">Dana Whitfield</a></span></td>
+          <td>2025 Ridgeline Crossover SE</td><td>Website chat</td><td class="muted">2 days ago</td>
+          <td><div class="row-actions"><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></button><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div></td>
+        </tr>
+        <tr>
+          <td><span style="display:flex;gap:8px;align-items:center"><span class="dot warm"></span><a href="#">Marcus Ortega</a></span></td>
+          <td>2024 Harbor Sedan LX</td><td>Phone</td><td class="muted">Today</td>
+          <td><div class="row-actions"><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></button><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div></td>
+        </tr>
+        <tr>
+          <td><span style="display:flex;gap:8px;align-items:center"><span class="dot cold"></span><a href="#">Priya Raman</a></span></td>
+          <td>2025 Summit Pickup XL</td><td>Walk-in</td><td class="muted">6 days ago</td>
+          <td><div class="row-actions"><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></button><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div></td>
+        </tr>
+        <tr>
+          <td><span style="display:flex;gap:8px;align-items:center"><span class="dot hot"></span><a href="#">Glen Hoffmann</a></span></td>
+          <td>2025 Ridgeline Crossover LT</td><td>Third-party site</td><td class="muted">Yesterday</td>
+          <td><div class="row-actions"><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></button><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div></td>
+        </tr>
+        <tr>
+          <td><span style="display:flex;gap:8px;align-items:center"><span class="dot cold"></span><a href="#">Ruth Ellison</a></span></td>
+          <td>2023 Harbor Sedan (used)</td><td>Website form</td><td class="muted">2 weeks ago</td>
+          <td><div class="row-actions"><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></button><button class="icon-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div></td>
+        </tr>
+    </tbody>
+  </table>
+</main>
+<footer>Synthetic demo page for testing Design Audit. Not a real product, dealership or customer.</footer>
+</body>
+</html>
