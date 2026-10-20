@@ -9,10 +9,10 @@
 // the folder you run it from). --open serves the report on this computer
 // so new decisions can be saved there.
 
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { checkAccessibility } from '../lib/check-a11y.mjs';
+import { checkAccessibility, NeedsChrome } from '../lib/check-a11y.mjs';
 import { fromAxe } from '../lib/findings.mjs';
 import { rank } from '../lib/rank.mjs';
 import { triage } from '../lib/triage.mjs';
@@ -49,12 +49,26 @@ if (!args.target || !(args.threshold >= 50 && args.threshold <= 100) || !(Number
 
 const now = new Date();
 const projectDir = resolve(args.project);
-const run = await checkAccessibility(args.target);
+let run;
+try {
+  run = await checkAccessibility(args.target);
+} catch (err) {
+  if (!(err instanceof NeedsChrome) && !/^No such page/.test(err.message)) throw err;
+  console.error(err.message);
+  process.exit(1);
+}
 const findings = rank(fromAxe(run.results, run.places));
 const threshold = args.threshold / 100;
 const page = pageKey(run.url, projectDir);
-const dir = join(args.out, `${slug(args.target)}-${stamp(now)}`);
+// A local file is named by its folder and file (lead-view-index-html), not
+// its whole path; a URL by its address.
+const named = /^[a-z]+:\/\//i.test(args.target) && !/^file:/i.test(args.target) ? args.target : args.target.replace(/^file:\/\//i, '').split(/[\\/]/).filter(Boolean).slice(-2).join('/');
+const dir = join(args.out, `${slug(named)}-${stamp(now)}`);
 mkdirSync(dir, { recursive: true });
+// Reports kept inside the project's .design-audit/ folder stay out of git;
+// the decisions file next to them is meant to be committed.
+const designAuditDir = join(projectDir, '.design-audit');
+if (resolve(dir).startsWith(designAuditDir + '/') && !existsSync(join(designAuditDir, '.gitignore'))) writeFileSync(join(designAuditDir, '.gitignore'), 'reports/\n');
 
 // How to reopen this report so decisions can save, from where you ran it.
 const openCommand = `node ${shell(relative(process.cwd(), fileURLToPath(new URL('./open-report.mjs', import.meta.url))))} ${shell(dir)}`;

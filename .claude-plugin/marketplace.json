@@ -1,0 +1,14 @@
+{
+  "name": "design-audit",
+  "owner": {
+    "name": "Ash Dzick"
+  },
+  "description": "Design Audit: accessibility and usability audits inside Claude Code",
+  "plugins": [
+    {
+      "name": "design-audit",
+      "source": ".",
+      "description": "Audit a page for accessibility and usability with measured confidence, and fix it in your code."
+    }
+  ]
+}

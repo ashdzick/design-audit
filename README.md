@@ -11,21 +11,21 @@ car dealership's lead view with problems planted on purpose.
 
 ## Quick start
 
-You need [Claude Code](https://claude.com/claude-code), Node 22 or newer,
-and Google Chrome. The audit drives your installed Chrome, so there's
-nothing extra to download.
+You need [Claude Code](https://claude.com/claude-code), Node 22 or newer
+with npm, and Google Chrome. The audit drives your installed Chrome, so
+there's no browser to download.
 
-```bash
-git clone https://github.com/ashdzick/design-audit.git
-cd design-audit
-npm install
-claude
-```
-
-Then ask Claude:
+In Claude Code, add the plugin:
 
 ```text
-Audit fixtures/lead-view/index.html
+/plugin marketplace add ashdzick/design-audit
+/plugin install design-audit@design-audit
+```
+
+Then, in any project, ask Claude to try it on the demo page:
+
+```text
+Audit the Design Audit demo page
 ```
 
 or a page of your own:
@@ -42,11 +42,14 @@ Audit http://localhost:3000/settings and fix what you can.
 
 Claude asks for a review threshold and how many judges to use (defaults 90%
 and 3), runs the audit, has the judges look at what rules can't decide, and
-opens the report. Only audit pages you own or are allowed to test.
+opens the report. Reports go in your project's `.design-audit/reports/`
+(git-ignored), and "Not an issue" decisions go in
+`.design-audit/dismissals.json`, which is worth committing so your team sees
+them. Only audit pages you own or are allowed to test.
 
-The skill lives in this repo, so start Claude Code in the `design-audit`
-folder, as above, and point it at any page, including your own app running
-on localhost. Installing it once for all your projects is on the list below.
+It works in Claude Code only. It needs to open a real browser on your
+computer, so it can't run in Claude chat, and uploading the skill on its own
+to your Claude account won't work either.
 
 ![A Design Audit report: findings grouped by severity on the left, one issue with how to fix it, who it affects, and a close-up of the element on the right](docs/report.png)
 
@@ -167,9 +170,6 @@ new. It left the one item in Review for a person.
 ## What it can't do yet
 
 - One page per run, and not pages behind a sign-in.
-- Judgment checks need Claude Code. Run on its own
-  (`node scripts/audit.mjs <page>`), the tool does the rule-based checks and
-  writes the judgment questions to the report folder for later.
 - Keyboard flows and how a screen reader actually sounds still need a
   person.
 
@@ -181,19 +181,29 @@ new. It left the one item in Review for a person.
   actions and empty states.
 - Whole apps. Several pages per run, with an overview.
 
-## Without Claude Code
+## Working on the tool itself
+
+```bash
+git clone https://github.com/ashdzick/design-audit.git
+cd design-audit
+npm install
+claude --plugin-dir .
+```
+
+`--plugin-dir .` loads your clone as the plugin, so your changes are what
+runs. Without Claude Code, the command line does the rule-based checks:
 
 ```bash
 node scripts/audit.mjs <url-or-path> [--threshold 90] [--runs 3] [--open]
 ```
 
-Writes `report.html`, `findings.json` and `screenshot.png` to
+It writes `report.html`, `findings.json` and `screenshot.png` to
 `reports/<page>-<time>/`. `--open` serves the report locally so "Not an
 issue" can save. Judgment briefs wait in `judge/` inside the report folder.
 Once judges have answered them, `node scripts/add-judgments.mjs <report
-folder>` merges them in. After a round of fixes, `node scripts/compare-audits.mjs
-<before folder> <after folder>` lists what's fixed, what's still there and
-anything new.
+folder>` merges them in. After a round of fixes,
+`node scripts/compare-audits.mjs <before folder> <after folder>` lists
+what's fixed, what's still there and anything new.
 
 ## FAQ
 
@@ -210,9 +220,9 @@ under your account's data policy. Reports stay in `reports/` on your machine.
 <details>
 <summary>Do I need Claude Code?</summary>
 
-For the judgment checks, yes, for now. Without it, the tool runs the
-rule-based checks and writes the judgment questions to the report folder.
-See [Without Claude Code](#without-claude-code).
+Yes. It installs as a Claude Code plugin and the judgment checks run as
+Claude Code subagents. From a clone, the command line can still run the
+rule-based checks; see [Working on the tool itself](#working-on-the-tool-itself).
 
 </details>
 
@@ -228,9 +238,8 @@ login.
 <summary>Does it change my code?</summary>
 
 Only if you ask, and only with your approval for each change. Afterwards it
-audits the page again to check. If you audit one of the demo pages in
-`fixtures/`, it copies the page to `try/` and fixes the copy, since the
-originals are test data.
+audits the page again to check. To fix the demo page, it copies it into
+your project as `try/` and fixes the copy.
 
 </details>
 

@@ -1,6 +1,6 @@
 {
   "name": "design-audit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "An accessibility and usability audit that runs inside Claude Code: rule-based checks plus measured judgment, with a report that says what to fix.",
   "type": "module",
@@ -15,5 +15,9 @@
   "license": "MIT",
   "engines": {
     "node": ">=22"
+  },
+  "author": {
+    "name": "Ash Dzick",
+    "email": "5489882+ashdzick@users.noreply.github.com"
   }
 }

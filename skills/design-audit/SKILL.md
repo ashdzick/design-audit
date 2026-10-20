@@ -12,10 +12,19 @@ goes straight to "Fix these" and what goes to a person.
 ## Before running
 
 - Audit only pages the person owns or is allowed to test: their own sites,
-  local files, staging they work on, or the fixtures in this repo. Never
-  run it against another company's live product on someone's behalf.
-- Needs Google Chrome installed (it drives the installed Chrome; no browser
-  download) and `npm install` run once in this repo.
+  local files, staging they work on, or the demo pages that come with the
+  plugin. Never run it against another company's live product on someone's
+  behalf.
+- It needs Google Chrome installed: it drives the installed Chrome and
+  doesn't download a browser. If Chrome is missing, the audit says so in one
+  line; pass that on with where to get Chrome, and stop.
+- The tool's own files are in `${CLAUDE_PLUGIN_ROOT}`. Run every command
+  from the project the person is working in, as written below, so reports
+  land in that project's `.design-audit/reports/` (git-ignored) and "Not an
+  issue" decisions in `.design-audit/dismissals.json` (worth committing).
+- If the person wants to try it without a page of their own, use the demo
+  page: `${CLAUDE_PLUGIN_ROOT}/fixtures/lead-view/index.html`, a made-up car
+  dealership's lead view with problems planted on purpose.
 
 ## Run
 
@@ -29,13 +38,13 @@ defaults picked so a plain "go" accepts both:
   agreement to measure, so nothing judged goes to Review on its own.
 
 ```bash
-node scripts/audit.mjs <url-or-path> --threshold 90 --runs 3
+node ${CLAUDE_PLUGIN_ROOT}/scripts/audit.mjs <url-or-path> --threshold 90 --runs 3 --out .design-audit/reports
 ```
 
 - `<url-or-path>`: an http(s) URL, a file:// URL, or a path to a local HTML file.
 - `--threshold`: 50 to 100, the person's review threshold. Default 90. Ask
   the person if they have a preference; otherwise use the default and say so.
-- Output goes to `reports/<page>-<time>/`: `report.html`, `findings.json`,
+- Output goes to `.design-audit/reports/<page>-<time>/`: `report.html`, `findings.json`,
   `screenshot.png`. The CLI prints a summary and the report path.
 
 ## Judgment checks
@@ -61,7 +70,7 @@ from the screenshot and, where the brief gives it, the element's own code.
 2. Don't judge the brief yourself and don't edit run files.
 3. When all runs are in:
    ```bash
-   node scripts/add-judgments.mjs <report folder>
+   node ${CLAUDE_PLUGIN_ROOT}/scripts/add-judgments.mjs <report folder>
    ```
    It merges the runs (verdict by majority, confidence = the share that
    agree) and rewrites the report with the judged findings ranked in.
@@ -85,10 +94,10 @@ from the screenshot and, where the brief gives it, the element's own code.
 After the summary, offer once: "Want me to fix these in the code? I'll show
 each change before I make it." Only go ahead if the person says yes.
 
-1. **Never edit `fixtures/`.** Those pages are test data with problems
-   planted on purpose. If the audited page is in `fixtures/`, copy its
-   folder to `try/<name>/` first (git ignores `try/`), audit the copy, and
-   fix the copy. Say that you did.
+1. **Never edit the plugin's own files**, including the demo pages in
+   `${CLAUDE_PLUGIN_ROOT}/fixtures/`. To fix a demo page, copy its folder
+   into the person's project as `try/<name>/`, audit the copy, and fix the
+   copy. Say that you did.
 2. **Find the code.** For a local HTML file, it's that file. For an app on
    localhost, search the project for the element: its text, its classes and
    the `html` snippet each element carries in `findings.json`.
@@ -110,7 +119,7 @@ each change before I make it." Only go ahead if the person says yes.
 7. **Check the fixes.** Audit the page again with the same threshold and
    number of judges (judges included), then compare:
    ```bash
-   node scripts/compare-audits.mjs <report before> <report after>
+   node ${CLAUDE_PLUGIN_ROOT}/scripts/compare-audits.mjs <report before> <report after>
    ```
    Report what's fixed, what's still there and anything new, as the script
    says. If a fix made something new, say so and offer to fix that too.
@@ -126,8 +135,8 @@ each change before I make it." Only go ahead if the person says yes.
 
 ## Demo page
 
-`fixtures/lead-view/index.html` is a synthetic dealership CRM lead view with
-planted issues listed in `fixtures/lead-view/planted.json`. Two of them (color-only
+`${CLAUDE_PLUGIN_ROOT}/fixtures/lead-view/index.html` is a synthetic dealership CRM lead view with
+planted issues listed in `planted.json` next to it. Two of them (color-only
 lead temperature dots, placeholder as the only label) pass the rule-based
 checks on purpose: they are what the judgment layer is for. The color
 check catches the first, the placeholder check the second.

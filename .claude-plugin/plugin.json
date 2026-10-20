@@ -1,0 +1,18 @@
+{
+  "name": "design-audit",
+  "version": "0.2.0",
+  "description": "Audit a page for accessibility and usability with measured confidence, and fix it in your code, one approved change at a time.",
+  "author": {
+    "name": "Ash Dzick"
+  },
+  "homepage": "https://ashdzick.github.io/design-audit/",
+  "repository": "https://github.com/ashdzick/design-audit",
+  "license": "MIT",
+  "keywords": [
+    "accessibility",
+    "wcag",
+    "usability",
+    "design",
+    "audit"
+  ]
+}
