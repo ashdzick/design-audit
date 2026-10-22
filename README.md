@@ -6,13 +6,12 @@ and fixes it in your code if you want, one approved change at a time.
 Where a rule can decide, it uses the rule. Where it can't, several Claude
 judges answer separately, and the confidence is how many agree.
 
-[Live demo report](https://ashdzick.github.io/design-audit/), on a made-up
-car dealership's lead view with problems planted on purpose.
+[Live demo report](https://ashdzick.github.io/design-audit/), on a fictional car dealership with accessibility problems to fix.
 
 ## Quick start
 
 You need [Claude Code](https://claude.com/claude-code), Node 22 or newer
-with npm, and Google Chrome. The audit drives your installed Chrome, so
+with npm, and Google Chrome. The audit works in your installed Chrome, so
 there's no browser to download.
 
 In Claude Code, add the plugin:
@@ -45,11 +44,9 @@ and 3), runs the audit, has the judges look at what rules can't decide, and
 opens the report. Reports go in your project's `.design-audit/reports/`
 (git-ignored), and "Not an issue" decisions go in
 `.design-audit/dismissals.json`, which is worth committing so your team sees
-them. Only audit pages you own or are allowed to test.
+them.
 
-It works in Claude Code only. It needs to open a real browser on your
-computer, so it can't run in Claude chat, and uploading the skill on its own
-to your Claude account won't work either.
+It works in Claude Code only. It needs to open a real browser, on your servers. That means it won't work in Chat Chat (no browser) or installed as a skill (would run on Anthropic servers).
 
 ![A Design Audit report: findings grouped by severity on the left, one issue with how to fix it, who it affects, and a close-up of the element on the right](docs/report.png)
 
