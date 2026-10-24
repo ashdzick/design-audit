@@ -47,6 +47,11 @@
   label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
   select { border: 1px solid #d5dbe6; border-radius: 8px; padding: 6px 8px; font: inherit; }
   footer { padding: 12px 28px; color: #4a5568; font-size: 12px; }
+  .offer { margin-top: 16px; border-radius: 10px; padding: 16px 20px; color: #fff; background: linear-gradient(100deg, #174ea6 0%, #4f8fdc 55%, #a9cbf2 100%); }
+  .offer .eyebrow { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .6px; color: rgba(255,255,255,.82); }
+  .offer .headline { font-size: 15px; font-weight: 600; margin: 4px 0 6px; }
+  .offer .fine { font-size: 12px; color: #e6eefa; }
+  .offer .send { display: inline-block; margin-top: 10px; font-size: 13px; font-weight: 700; color: #0f1b30; }
 </style>
 </head>
 <body>
@@ -137,6 +142,14 @@
           <!-- PLANTED: aria-expanded="yes" is not a valid value (aria-valid-attr-value) -->
           <button class="toggle" aria-expanded="yes" aria-controls="trade-panel">Trade-in details</button>
           <div id="trade-panel" style="margin-top:8px">2019 Compact Sedan · 61,200 mi · Estimate pending</div>
+        </section>
+
+        <!-- PLANTED (part 2): text on a gradient, from clearly readable to borderline. axe can't measure it, so judges decide, and on the borderline pieces they may split -->
+        <section class="offer" aria-label="Upgrade offer">
+          <div class="eyebrow">Upgrade offer</div>
+          <div class="headline">Trade in the sedan and pay about $18 a month less on the SE</div>
+          <div class="fine">Estimate only. Based on the trade-in estimate and a 60-month term, before taxes and fees.</div>
+          <span class="send">Send offer to Dana</span>
         </section>
 
         <section class="card" style="margin-top:16px" aria-label="Notes">

@@ -76,6 +76,12 @@
       "part": 2,
       "where": "lead temperature dots (lead header, My leads list)",
       "issue": "Hot, warm and cold shown by color alone. axe passes this; the usability layer should flag it."
+    },
+    {
+      "check": "contrast-gradient",
+      "part": 2,
+      "where": "Upgrade offer card",
+      "issue": "Text on a gradient, from clearly readable (the dark send line) to borderline (the eyebrow, the headline's light end, the fine print). axe can't measure text on a gradient, so judges decide each piece, and on the borderline ones they can split. It's there so the review threshold has something to move."
     }
   ]
 }
